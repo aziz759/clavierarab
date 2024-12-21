@@ -1,0 +1,271 @@
+<!DOCTYPE html>
+<html lang="ar">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>لوحة المفاتيح العربية مع الترجمة</title>
+    <style>
+      body {
+        font-family: "Arial", sans-serif;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        height: 100vh;
+        margin: 0;
+        background-color: #f0f0f0;
+        direction: rtl;
+      }
+
+      .display {
+        width: 80%;
+        height: 50px;
+        margin-bottom: 10px;
+        background-color: #fff;
+        border: 2px solid #ccc;
+        font-size: 24px;
+        padding: 10px;
+        box-sizing: border-box;
+        color: #333;
+        text-align: right;
+        overflow-x: auto;
+        white-space: nowrap;
+      }
+
+      .translation-display {
+        width: 80%;
+        min-height: 50px;
+        margin-top: 20px;
+        background-color: #e9f7df;
+        border: 2px solid #ccc;
+        font-size: 20px;
+        padding: 10px;
+        box-sizing: border-box;
+        text-align: right;
+        color: #333;
+      }
+
+      .controls {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        width: 80%;
+        margin-bottom: 20px;
+      }
+
+      .translate-button,
+      .copy-button,
+      .paste-button {
+        padding: 10px 20px;
+        font-size: 18px;
+        cursor: pointer;
+        background-color: #007bff;
+        color: white;
+        border: none;
+        border-radius: 5px;
+        transition: background-color 0.3s;
+      }
+
+      .translate-button:hover,
+      .copy-button:hover,
+      .paste-button:hover {
+        background-color: #0056b3;
+      }
+
+      .language-select {
+        font-size: 18px;
+        padding: 5px 10px;
+      }
+
+      .keyboard {
+        display: grid;
+        grid-template-columns: repeat(10, 60px);
+        gap: 10px;
+      }
+
+      .key {
+        width: 60px;
+        height: 60px;
+        background-color: #fff;
+        border: 2px solid #ccc;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 20px;
+        cursor: pointer;
+        border-radius: 10px;
+        transition: transform 0.2s, background-color 0.2s;
+      }
+
+      .key:hover {
+        background-color: #ffcc00;
+        transform: scale(1.1);
+      }
+
+      .key:active,
+      .key.pressed {
+        background-color: #ff9900;
+        box-shadow: 0 0 10px #ff9900;
+      }
+
+      .space {
+        grid-column: span 10;
+        height: 60px;
+        background-color: #ddd;
+        border: 2px solid #ccc;
+        border-radius: 10px;
+        font-size: 20px;
+      }
+
+      .image-button {
+        margin-top: 10px;
+        padding: 10px 20px;
+        font-size: 18px;
+        background-color: #28a745;
+        color: white;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+        transition: background-color 0.3s;
+      }
+
+      .image-button:hover {
+        background-color: #1c7430;
+      }
+    </style>
+  </head>
+  <body>
+    <div contenteditable="true" id="text-display" class="display"></div>
+
+    <div class="controls">
+      <select id="language-select" class="language-select">
+        <option value="en">الإنجليزية</option>
+        <option value="ru">الروسية</option>
+        <option value="es">الإسبانية</option>
+        <option value="fr">الفرنسية</option>
+      </select>
+      <button class="translate-button" id="translate-button">ترجمة</button>
+      <button class="copy-button" id="copy-button">نسخ</button>
+      <button class="paste-button" id="paste-button">لصق</button>
+      <button class="image-button" id="add-image-button">إضافة صورة</button>
+    </div>
+
+    <div id="translation-display" class="translation-display">
+      الترجمة ستظهر هنا...
+    </div>
+
+    <div class="keyboard">
+      <div class="key" data-key="ا">ا</div>
+      <div class="key" data-key="ب">ب</div>
+      <div class="key" data-key="ت">ت</div>
+      <div class="key" data-key="ث">ث</div>
+      <div class="key" data-key="ج">ج</div>
+      <div class="key" data-key="ح">ح</div>
+      <div class="key" data-key="خ">خ</div>
+      <div class="key" data-key="د">د</div>
+      <div class="key" data-key="ذ">ذ</div>
+      <div class="key" data-key="ر">ر</div>
+      <div class="key" data-key="ز">ز</div>
+      <div class="key" data-key="س">س</div>
+      <div class="key" data-key="ش">ش</div>
+      <div class="key" data-key="ص">ص</div>
+      <div class="key" data-key="ض">ض</div>
+      <div class="key" data-key="ط">ط</div>
+      <div class="key" data-key="ظ">ظ</div>
+      <div class="key" data-key="ع">ع</div>
+      <div class="key" data-key="غ">غ</div>
+      <div class="key" data-key="ف">ف</div>
+      <div class="key" data-key="ق">ق</div>
+      <div class="key" data-key="ك">ك</div>
+      <div class="key" data-key="ل">ل</div>
+      <div class="key" data-key="م">م</div>
+      <div class="key" data-key="ن">ن</div>
+      <div class="key" data-key="هـ">هـ</div>
+      <div class="key" data-key="و">و</div>
+      <div class="key" data-key="ي">ي</div>
+      <div class="space key" data-key=" ">مسافة</div>
+    </div>
+
+    <script>
+      // Update the display text
+      function displayText(key) {
+        const display = document.getElementById("text-display");
+        display.textContent += key;
+      }
+
+      // Handle virtual keyboard input
+      document.querySelectorAll(".key").forEach((key) => {
+        key.addEventListener("click", () => {
+          displayText(key.dataset.key);
+        });
+      });
+
+      // Add image logic
+      document
+        .getElementById("add-image-button")
+        .addEventListener("click", () => {
+          const display = document.getElementById("text-display");
+          const imgURL = prompt("أدخل رابط الصورة:");
+          if (imgURL) {
+            const img = document.createElement("img");
+            img.src = imgURL;
+            img.alt = "صورة";
+            img.style.maxWidth = "100%";
+            img.style.height = "50px";
+            display.appendChild(img);
+          }
+        });
+
+      // Copy to clipboard logic
+      document.getElementById("copy-button").addEventListener("click", () => {
+        const display = document.getElementById("text-display");
+        const text = display.textContent;
+        navigator.clipboard.writeText(text).then(
+          () => alert("تم نسخ النص إلى الحافظة!"),
+          () => alert("فشل نسخ النص!")
+        );
+      });
+
+      // Paste from clipboard logic
+      document
+        .getElementById("paste-button")
+        .addEventListener("click", async () => {
+          try {
+            const text = await navigator.clipboard.readText();
+            document.getElementById("text-display").textContent += text;
+          } catch (error) {
+            alert("فشل في لصق النص.");
+          }
+        });
+
+      // Translation logic
+      document
+        .getElementById("translate-button")
+        .addEventListener("click", async () => {
+          const text = document.getElementById("text-display").textContent;
+          const language = document.getElementById("language-select").value;
+          const translationDisplay = document.getElementById(
+            "translation-display"
+          );
+
+          if (!text.trim()) {
+            translationDisplay.textContent = "يرجى كتابة النص للترجمة!";
+            return;
+          }
+
+          try {
+            const response = await fetch(
+              `https://api.mymemory.translated.net/get?q=${encodeURIComponent(
+                text
+              )}&langpair=ar|${language}`
+            );
+            const data = await response.json();
+            translationDisplay.textContent = data.responseData.translatedText;
+          } catch (error) {
+            translationDisplay.textContent =
+              "حدث خطأ أثناء الترجمة. يرجى المحاولة لاحقًا.";
+          }
+        });
+    </script>
+  </body>
+</html>
